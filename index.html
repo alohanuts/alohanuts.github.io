@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Password Gate</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: black;
+      color: white;
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    input {
+      padding: 8px;
+      margin-left: 10px;
+    }
+
+    button {
+      padding: 8px 12px;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+
+    .secretText {
+      margin-top: 20px;
+      font-size: 20px;
+      color: lime;
+      display: none;
+    }
+
+    #incorrect {
+      margin-top: 10px;
+      font-size: 18px;
+      color: red;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <label for="password"><strong>ENTER PASSWORD:</strong></label>
+    <input type="password" id="password">
+    <button id="submitBtn">SUBMIT</button>
+
+    <div id="incorrect">INCORRECT</div>
+
+    <!-- Secret messages for each password -->
+    <div id="secret1" class="secretText">input later</div>
+    <div id="secret2" class="secretText">input later</div>
+    <div id="secret3" class="secretText">input later</div>
+  </div>
+
+  <script>
+    window.onload = function() {
+      // Define multiple passwords and the IDs they unlock
+      const passwords = {
+        "pas": "secret1",
+        "sword": "secret2",
+        "justice": "secret3"
+      };
+
+      document.getElementById("submitBtn").addEventListener("click", function() {
+        const input = document.getElementById("password").value;
+
+        const incorrectMsg = document.getElementById("incorrect");
+
+        // Hide all secret text first
+        document.querySelectorAll(".secretText").forEach(div => {
+          div.style.display = "none";
+        });
+
+        if (passwords[input]) {
+          // Correct password → show matching secret <div>
+          document.getElementById(passwords[input]).style.display = "block";
+          incorrectMsg.style.display = "none";
+        } else {
+          // Wrong password → show INCORRECT
+          incorrectMsg.style.display = "block";
+        }
+      });
+    };
+  </script>
+</body>
+</html>
