@@ -52,14 +52,67 @@
 
     <div id="incorrect">INCORRECT</div>
 
-    <!-- Secret messages for each password -->
-    <div id="secret1" class="secretText">Find the combined area of a circle with radius of 8 divided by the square root of pi and a square with side length square root of 3.</div>
-    <div id="secret2" class="secretText">youtube link</div>
-    <div id="secret3" class="secretText">coordinates</div>
+ 
+    <div id="secret1" class="secretText"></div>
+    <div id="secret2" class="secretText"></div>
+    <div id="secret3" class="secretText"></div>
   </div>
 
   <script>
-function _0x1b00(){const _0x35a224=['secret2','1667430olMpCg','216bqezdj','8ALBaoz','10ojDnGy','submitBtn','block','1mbLgIp','894105DHsUXk','35753916XvwNHZ','incorrect','style','display','click','onload','none','secret3','2378666POTNbU','forEach','getElementById','229845VqDDym','addEventListener','1999299CVFUOP','password','3185226odRXzE','secret1'];_0x1b00=function(){return _0x35a224;};return _0x1b00();}function _0x46b0(_0x1c7388,_0x44e768){_0x1c7388=_0x1c7388-0x95;const _0x1b001c=_0x1b00();let _0x46b019=_0x1b001c[_0x1c7388];return _0x46b019;}const _0x453326=_0x46b0;(function(_0x4de908,_0x73401a){const _0x2942a5=_0x46b0,_0x15e89d=_0x4de908();while(!![]){try{const _0x700756=-parseInt(_0x2942a5(0xa8))/0x1*(parseInt(_0x2942a5(0x98))/0x2)+-parseInt(_0x2942a5(0x9d))/0x3*(parseInt(_0x2942a5(0xa4))/0x4)+-parseInt(_0x2942a5(0xa9))/0x5+-parseInt(_0x2942a5(0xa2))/0x6+-parseInt(_0x2942a5(0x9b))/0x7*(-parseInt(_0x2942a5(0xa3))/0x8)+-parseInt(_0x2942a5(0x9f))/0x9*(parseInt(_0x2942a5(0xa5))/0xa)+parseInt(_0x2942a5(0xaa))/0xb;if(_0x700756===_0x73401a)break;else _0x15e89d['push'](_0x15e89d['shift']());}catch(_0x2c7c1b){_0x15e89d['push'](_0x15e89d['shift']());}}}(_0x1b00,0xc44de),window[_0x453326(0x95)]=function(){const _0x2dcd21=_0x453326,_0x5e6a91={'pas':_0x2dcd21(0xa0),'sword':_0x2dcd21(0xa1),'justice':_0x2dcd21(0x97)};document[_0x2dcd21(0x9a)](_0x2dcd21(0xa6))[_0x2dcd21(0x9c)](_0x2dcd21(0xae),function(){const _0x54266a=_0x2dcd21,_0x9ce75d=document['getElementById'](_0x54266a(0x9e))['value'],_0x217b77=document[_0x54266a(0x9a)](_0x54266a(0xab));document['querySelectorAll']('.secretText')[_0x54266a(0x99)](_0x554bb0=>{const _0x26ae5c=_0x54266a;_0x554bb0[_0x26ae5c(0xac)]['display']=_0x26ae5c(0x96);}),_0x5e6a91[_0x9ce75d]?(document[_0x54266a(0x9a)](_0x5e6a91[_0x9ce75d])[_0x54266a(0xac)][_0x54266a(0xad)]=_0x54266a(0xa7),_0x217b77['style'][_0x54266a(0xad)]=_0x54266a(0x96)):_0x217b77['style'][_0x54266a(0xad)]=_0x54266a(0xa7);});});
+
+const rev = s => s.split("").reverse().join("");
+const b64d = s => atob(s);
+const decodeStr = s => b64d(rev(s));
+
+
+const OBF_PW = {
+  p1: "==QZ2vGb",   
+  p2: "=cjN",      
+  p3: "=UGajlmb"   
+};
+
+function buildPasswordMap() {
+  return {
+    [decodeStr(OBF_PW.p1).toLowerCase()]: "secret1",
+    [decodeStr(OBF_PW.p2).toLowerCase()]: "secret2",
+    [decodeStr(OBF_PW.p3).toLowerCase()]: "secret3"
+  };
+}
+
+
+const SECRETS = {
+  secret1: "RmluZCB0aGUgY29tYmluZWQgYXJlYSBvZiBhIGNpcmNsZSB3aXRoIHJhZGl1cyBvZiA4IGRpdmlkZWQgYnkgdGhlIHNxdWFyZSByb290IG9mIHBpIGFuZCBhIHNxdWFyZSB3aXRoIHNpZGUgbGVuZ3RoIHNxdWFyZSByb290IG9mIDMu",
+  secret2: "eW91dHViZSBsaW5r",
+  secret3: "Y29vcmRpbmF0ZXM="
+};
+
+
+window.onload = function () {
+  const pwMap = buildPasswordMap();
+
+  document.getElementById("submitBtn").addEventListener("click", function () {
+    const input = document.getElementById("password").value.trim().toLowerCase();
+    const incorrect = document.getElementById("incorrect");
+
+    document.querySelectorAll(".secretText").forEach(el => {
+      el.style.display = "none";
+    });
+
+
+    if (pwMap[input]) {
+      const id = pwMap[input];
+      const box = document.getElementById(id);
+
+
+      box.textContent = b64d(SECRETS[id]);
+
+      box.style.display = "block";
+      incorrect.style.display = "none";
+    } else {
+      incorrect.style.display = "block";
+    }
+  });
+};
   </script>
 </body>
 </html>
